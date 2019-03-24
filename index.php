@@ -1,45 +1,16 @@
 <?php
+require_once "./vendor/autoload.php";
 
-$get = $_GET ?? [];
+use HttpWorkshop\HttpRequest;
+use HttpWorkshop\HttpResponse;
 
-class HttpRequest
-{
-    private $get = [];
 
-    public function __construct()
-    {
-        if (!sizeof($_GET ?? [])) {
-            echo "No parameteres received through $_GET"
-            exit;
-        }
-        $this->get = $_GET;
-    }
-
-    private clean(String $string) {
-        if (is_string($string) {
-            preg_replace('/[^A-Za-z0-9\-]/', '', $string);
-        }
-
-        return "";
-    }
-
-    public function showGet()
-    {
-        foreach ($this->get as $key => $val) {
-            if (is_array($val)) {
-                printArray($val);
-            } else {
-                echo "[{this->clean($key ?? "N/A")}] => {this->clean($key ?? "N/A")} <br>";
-            }
-        }
-    }
-
-    private printArray($array) {
-        foreach ($array as $key => $val) {
-            echo "[{this->clean($key ?? "N/A")}] => {this->clean($val ?? "N/A")} <br>";
-        }
-    }
+try {
+    $http = new HttpRequest(new HttpResponse);
+    $http->render($http->getData(), "json");
+    exit;
+} catch (ErrorException $e) {
+    $http = new HttpRequest(new HttpResponse);
+    $http->render([], "json");
+    exit;
 }
-
-$http = new HttpRequest();
-$http->showGet();
