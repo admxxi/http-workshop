@@ -8,7 +8,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "HttpWorkshop\\": "./src",
+      "Http\\": "./src",
       "Core\\": "./src"
     }
   },

@@ -1,12 +1,12 @@
 <?php
 
-namespace HttpWorkshop;
+namespace Workshop;
 
 /**
  * Class HttpResponse
  * @package HttpWorkshop
  */
-class HttpResponse
+class Response
 {
     const statusCollection = [
         200 => "HTTP/1.1 200 Success",

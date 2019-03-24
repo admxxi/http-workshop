@@ -1,16 +1,16 @@
 <?php
 require_once "./vendor/autoload.php";
 
-use HttpWorkshop\HttpRequest;
-use HttpWorkshop\HttpResponse;
+use Http\Request;
+use Http\Response;
 
 
 try {
-    $http = new HttpRequest(new HttpResponse);
+    $http = new Request(new Response);
     $http->render($http->getData(), "json");
     exit;
 } catch (ErrorException $e) {
-    $http = new HttpRequest(new HttpResponse);
+    $http = new Request(new Response);
     $http->render([], "json");
     exit;
 }

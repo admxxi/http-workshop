@@ -1,12 +1,12 @@
 <?php
 
-namespace HttpWorkshop;
+namespace Http;
 
 /**
  * Class HttpRequest
  * @package HttpWorkshop
  */
-class HttpRequest
+class Request
 {
     private $get;
     private $response;
