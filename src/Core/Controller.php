@@ -28,7 +28,7 @@ class Controller
      * Controller constructor.
      * @throws \ErrorException
      */
-    public function __construct()
+    function __construct()
     {
         if (!count($_SERVER)) {
             throw new ErrorException("Server problem.");
@@ -54,36 +54,49 @@ class Controller
 
     /**
      * @param $data
-     * @param $format
+     * @param string $message
+     * @param string $format
      */
-    public function render($data, $format = Response::json)
+    function render($data, $message, $format = Response::json)
     {
-        $data = $data ?? [];
+        $data = $data ?? false;
+        $message = $message ?? false;
+        $response = [];
+        $output = "";
         $this->beforeRender();
+
+        $response["status"] = $this->getRequest()->getResponse()->getStatus();
+        $response["data"] = $data;
+        $response["message"] = $message;
+        $response["response"] = "success";
+
+        if ($response["status"] > 400) {
+            $response["response"] = "error";
+        }
+
+        if ($response["status"] > 500) {
+            $response["response"] = "server error";
+        }
 
         if ($format === Response::json) {
             $this->setContentType(Response::json);
-            echo json_encode(
-                [
-                    "response" => "success",
-                    "status"   => $this->request->getResponse()->getStatus(),
-                    "data"     => $data,
-                ]
-            );
+            $output = json_encode($response);
         }
         if ($format === Response::html) {
             $this->setContentType(Response::html);
-            echo $this->getRequest()->printArray($data);
+            $output = print_r($response, true);
         }
 
+        echo $output;
         $this->afterRender();
         exit;
     }
 
+
     /**
      * @return mixed
      */
-    public function getAllQueryString()
+    function getAllQueryString()
     {
         return $this->getRequest()->getQueryString();
     }
@@ -91,7 +104,7 @@ class Controller
     /**
      * @return mixed
      */
-    public function getServer()
+    function getServer()
     {
         return $this->server;
     }
@@ -99,7 +112,7 @@ class Controller
     /**
      * @param mixed $server
      */
-    public function setServer($server): void
+    function setServer($server): void
     {
         $this->server = $server;
     }
@@ -107,7 +120,7 @@ class Controller
     /**
      * @return mixed
      */
-    public function getRequest()
+    function getRequest()
     {
         return $this->request;
     }
@@ -115,7 +128,7 @@ class Controller
     /**
      * @param mixed $request
      */
-    public function setRequest($request): void
+    function setRequest($request): void
     {
         $this->request = $request;
     }
@@ -123,7 +136,7 @@ class Controller
     /**
      * @return mixed
      */
-    public function getRoute()
+    function getRoute()
     {
         return $this->route;
     }
@@ -131,7 +144,7 @@ class Controller
     /**
      * @param mixed $route
      */
-    public function setRoute($route): void
+    function setRoute($route): void
     {
         $this->route = ucfirst($route);
     }
@@ -139,7 +152,7 @@ class Controller
     /**
      * @return mixed
      */
-    public function getAction()
+    function getAction()
     {
         return $this->action;
     }
@@ -147,12 +160,15 @@ class Controller
     /**
      * @param mixed $action
      */
-    public function setAction($action): void
+    function setAction(
+        $action
+    ): void
     {
         $this->action = "action".ucfirst($action);
     }
 
-    public function actionDefault()
+
+    function actionDefault()
     {
         $this->actionDump();
     }
@@ -172,7 +188,9 @@ class Controller
     /**
      * @param $format
      */
-    private function setContentType($format)
+    private function setContentType(
+        $format
+    )
     {
         if (isset($this->getRequest()->getResponse()::contentTypeCollection[$format])) {
             header($this->getRequest()->getResponse()::contentTypeCollection[$format]);
@@ -182,25 +200,28 @@ class Controller
     /**
      *
      */
-    public function actionDump()
+
+    function actionDump()
     {
-        $this->render($this->getAllQueryString(), Response::json);
+        $this->render($this->getAllQueryString(), "", Response::json);
     }
 
     /**
      */
-    public function notFound()
+
+    function notFound()
     {
         $request = new Request(new Response());
         $request->getResponse()->setStatus(Response::notFound);
-        $this->render("{$this->getRoute()}->{$this->getAction()} not found");
+        $this->render([], "{$this->getRoute()}->{$this->getAction()} not found");
     }
 
     /**
      * @param $method
      * @param $args
      */
-    public function __call($method, $args)
+
+    function __call($method, $args)
     {
         $this->notFound();
     }

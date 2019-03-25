@@ -50,8 +50,8 @@ try {
     $controller->actionDefault();
 
 } catch (ErrorException $e) {
-    $controller->getRequest()->getResponse()->setStatus($e->getCode());
-    $controller->render($e->getMessage());
+    $controller->getRequest()->getResponse()->setStatus($e->getCode() ?? \Http\Response::notFound);
+    $controller->render([], $e->getMessage());
 }
 
 exit;
