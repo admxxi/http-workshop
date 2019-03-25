@@ -77,7 +77,7 @@ class Request
             if (is_array($val)) {
                 self::printArray($val);
             } else {
-                echo "[" . self::clean($key ?? "N/A") . "] => {" . self::clean($key ?? "N/A") . "} <br>";
+                echo "[".self::clean($key ?? "N/A")."] => {".self::clean($key ?? "N/A")."} <br>";
             }
         }
 

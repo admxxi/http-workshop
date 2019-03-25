@@ -63,11 +63,13 @@ class Controller
 
         if ($format === Response::json) {
             $this->setContentType(Response::json);
-            echo json_encode([
-                "response" => "success",
-                "status"   => $this->request->getResponse()->getStatus(),
-                "data"     => $data,
-            ]);
+            echo json_encode(
+                [
+                    "response" => "success",
+                    "status"   => $this->request->getResponse()->getStatus(),
+                    "data"     => $data,
+                ]
+            );
         }
         if ($format === Response::html) {
             $this->setContentType(Response::html);
@@ -147,7 +149,7 @@ class Controller
      */
     public function setAction($action): void
     {
-        $this->action = "action" . ucfirst($action);
+        $this->action = "action".ucfirst($action);
     }
 
     public function actionDefault()
@@ -170,9 +172,7 @@ class Controller
     /**
      * @param $format
      */
-    private function setContentType(
-        $format
-    )
+    private function setContentType($format)
     {
         if (isset($this->getRequest()->getResponse()::contentTypeCollection[$format])) {
             header($this->getRequest()->getResponse()::contentTypeCollection[$format]);

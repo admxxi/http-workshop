@@ -17,7 +17,7 @@ try {
             $action = $split_path[0];
         }
         if (count($split_path) > 1) {
-            $route = "\\Route\\" . $split_path[0] . "Controller";
+            $route = "\\Route\\".$split_path[0]."Controller";
             $action = $split_path[1];
         }
     }
