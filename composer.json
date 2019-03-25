@@ -8,8 +8,9 @@
   ],
   "autoload": {
     "psr-4": {
-      "Http\\": "./src",
-      "Core\\": "./src"
+      "Http\\": "./src/Http",
+      "Core\\": "./src/Core",
+      "Route\\": "./src/Route"
     }
   },
   "require": {
