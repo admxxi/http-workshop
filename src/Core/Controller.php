@@ -56,11 +56,8 @@ class Controller
      * @param $data
      * @param $format
      */
-    public
-    function render(
-        $data,
-        $format = Response::json
-    ) {
+    public function render($data, $format = Response::json)
+    {
         $data = $data ?? [];
         $this->beforeRender();
 
@@ -84,8 +81,7 @@ class Controller
     /**
      * @return mixed
      */
-    public
-    function getAllQueryString()
+    public function getAllQueryString()
     {
         return $this->getRequest()->getQueryString();
     }
@@ -93,8 +89,7 @@ class Controller
     /**
      * @return mixed
      */
-    public
-    function getServer()
+    public function getServer()
     {
         return $this->server;
     }
@@ -102,18 +97,15 @@ class Controller
     /**
      * @param mixed $server
      */
-    public
-    function setServer(
-        $server
-    ): void {
+    public function setServer($server): void
+    {
         $this->server = $server;
     }
 
     /**
      * @return mixed
      */
-    public
-    function getRequest()
+    public function getRequest()
     {
         return $this->request;
     }
@@ -121,10 +113,8 @@ class Controller
     /**
      * @param mixed $request
      */
-    public
-    function setRequest(
-        $request
-    ): void {
+    public function setRequest($request): void
+    {
         $this->request = $request;
     }
 
@@ -165,16 +155,14 @@ class Controller
         $this->actionDump();
     }
 
-    private
-    function afterRender()
+    private function afterRender()
     {
         $html = ob_get_contents();
         ob_clean();
         echo $html;
     }
 
-    private
-    function beforeRender()
+    private function beforeRender()
     {
         ob_start();
     }
@@ -182,10 +170,10 @@ class Controller
     /**
      * @param $format
      */
-    private
-    function setContentType(
+    private function setContentType(
         $format
-    ) {
+    )
+    {
         if (isset($this->getRequest()->getResponse()::contentTypeCollection[$format])) {
             header($this->getRequest()->getResponse()::contentTypeCollection[$format]);
         }
