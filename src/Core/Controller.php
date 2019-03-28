@@ -176,7 +176,7 @@ class Controller
     private function afterRender()
     {
         $html = ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         echo $html;
     }
 
@@ -188,9 +188,7 @@ class Controller
     /**
      * @param $format
      */
-    private function setContentType(
-        $format
-    )
+    private function setContentType($format)
     {
         if (isset($this->getRequest()->getResponse()::contentTypeCollection[$format])) {
             header($this->getRequest()->getResponse()::contentTypeCollection[$format]);
